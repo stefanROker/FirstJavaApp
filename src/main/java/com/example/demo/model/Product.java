@@ -6,6 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class Product {
-    private String name;
+    private String firstName;
     private String lastName;
 }
