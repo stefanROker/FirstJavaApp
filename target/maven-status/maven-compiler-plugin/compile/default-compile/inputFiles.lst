@@ -1,2 +1,3 @@
 /home/stefan/Projects/FirstJavaApp/src/main/java/com/example/demo/controller/HelloWorldController.java
 /home/stefan/Projects/FirstJavaApp/src/main/java/com/example/demo/DemoApplication.java
+/home/stefan/Projects/FirstJavaApp/src/main/java/com/example/demo/config/WebSecurityConfig.java
