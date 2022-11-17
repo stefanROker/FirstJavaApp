@@ -9,6 +9,4 @@ import java.util.Optional;
 
 public interface ProductRepository extends CrudRepository<ProductEntity, Long> {
 
-    public Optional<ProductEntity> findProductByLastName(String value);
-
 }

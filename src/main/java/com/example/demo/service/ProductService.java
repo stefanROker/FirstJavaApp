@@ -22,11 +22,11 @@ public class ProductService {
     }
 
     public Product getProduct(String lastName) {
-        ProductEntity productEntity = productRepository.findProductByLastName(lastName).get();
-        Product product1 = Product.builder()
-                .firstName(productEntity.getFirstName())
-                .lastName(productEntity.getLastName())
-                .build();
-        return product1;
+//        ProductEntity productEntity = productRepository.findProductByLastName(lastName).get();
+//        Product product1 = Product.builder()
+//                .firstName(productEntity.getFirstName())
+//                .lastName(productEntity.getLastName())
+//                .build();
+        return null;
     }
 }
