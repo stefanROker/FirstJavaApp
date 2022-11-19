@@ -14,18 +14,18 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping("/product")
+    @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         productService.saveProduct(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/product")
+    @GetMapping("/products")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable Long id) {
         Product product = productService.getProduct(id);
 
@@ -37,12 +37,12 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/product")
+    @PutMapping("/products")
     public ResponseEntity<HttpStatus> updateProduct(@RequestBody Product product) {
         return new ResponseEntity<>(productService.updateProduct(product) ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<HttpStatus> deleteProduct(@PathVariable Long id) {
         return new ResponseEntity<>(productService.deleteProduct(id) ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
