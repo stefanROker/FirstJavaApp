@@ -1,32 +1,36 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.EntityNotFoundExceptionSupplier;
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductEntity;
 import com.example.demo.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final EntityNotFoundExceptionSupplier exceptionSupplier = new EntityNotFoundExceptionSupplier("Product");
+
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper) {
+        this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public void saveProduct(Product product) {
-        product.setId(0L);
         ProductEntity productEntity = modelMapper.map(product, ProductEntity.class);
         productRepository.save(productEntity);
     }
 
     public Product getProduct(Long id) {
-        Optional<ProductEntity> productEntity = productRepository.findById(id);
-        return productEntity.isPresent() ? modelMapper.map(productEntity, Product.class) : null;
+        ProductEntity productEntity = productRepository.findById(id).orElseThrow(exceptionSupplier.setId(id));
+        return modelMapper.map(productEntity, Product.class);
     }
 
     public List<Product> getAllProducts() {
@@ -37,31 +41,27 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateProduct(Product product) {
-        try {
-            ProductEntity productEntity = productRepository.getReferenceById(product.getId());
+    public void updateProduct(Long id, Product product) {
+        ProductEntity productEntity = productRepository.findById(id).orElseThrow(exceptionSupplier.setId(id));
 
-            productEntity.setTitle(product.getTitle());
-            productEntity.setDescription(product.getDescription());
-            productEntity.setPrice(product.getPrice());
-            productEntity.setPrp(product.getPrp());
-            productEntity.setSku(product.getSku());
-            productEntity.setQuantity(product.getQuantity());
-            productEntity.setPromotionPrice(product.getPromotionPrice());
+        productEntity.setTitle(product.getTitle());
+        productEntity.setDescription(product.getDescription());
+        productEntity.setPrice(product.getPrice());
+        productEntity.setPrp(product.getPrp());
+        productEntity.setSku(product.getSku());
+        productEntity.setQuantity(product.getQuantity());
+        productEntity.setPromotionPrice(product.getPromotionPrice());
 
-            productRepository.save(productEntity);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        productRepository.save(productEntity);
     }
 
-    public boolean deleteProduct(Long id) {
+    public void deleteProduct(Long id) {
+        // Map thrown exception to the one supplied by the exception supplier in order to be caught by the right
+        // exception handler.
         try {
             productRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (EmptyResultDataAccessException exception) {
+            throw exceptionSupplier.setId(id).get();
         }
     }
 }

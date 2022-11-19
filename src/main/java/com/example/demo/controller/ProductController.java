@@ -4,7 +4,6 @@ import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +11,13 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
+
     private final ProductService productService;
 
     @PostMapping("/products")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createProduct(@RequestBody Product product) {
         productService.saveProduct(product);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/products")
@@ -26,24 +26,19 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
-        Product product = productService.getProduct(id);
-
-        if (product != null) {
-            return new ResponseEntity<>(product, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public Product getProduct(@PathVariable Long id) {
+        return productService.getProduct(id);
     }
 
-    @PutMapping("/products")
-    public ResponseEntity<HttpStatus> updateProduct(@RequestBody Product product) {
-        return new ResponseEntity<>(productService.updateProduct(product) ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
+    @PutMapping("/products/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable Long id) {
-        return new ResponseEntity<>(productService.deleteProduct(id) ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 }
