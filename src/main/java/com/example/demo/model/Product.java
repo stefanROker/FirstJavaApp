@@ -13,7 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = {"id"}, allowGetters = true)
 public class Product {
 
-    private Long id = 0L;
+    private Long id;
 
     @NotNull
     private String title;
@@ -28,7 +28,7 @@ public class Product {
     private Float promotionPrice;
 
     @NotNull
-    private Integer quantity = 0;
+    private Integer quantity;
 
     private String sku;
 
