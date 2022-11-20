@@ -20,7 +20,8 @@ public class ProductEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Lob
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Column(name = "price", nullable = false)

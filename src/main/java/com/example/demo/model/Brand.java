@@ -8,5 +8,5 @@ public class Brand {
     @NotNull
     private String name;
 
-    private String description;
+    private String description = "";
 }
