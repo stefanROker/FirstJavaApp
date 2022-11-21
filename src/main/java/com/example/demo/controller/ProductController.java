@@ -17,28 +17,28 @@ public class ProductController {
     @PostMapping("/products")
     @ResponseStatus(HttpStatus.CREATED)
     public void createProduct(@RequestBody Product product) {
-        productService.saveProduct(product);
+        productService.save(product);
     }
 
     @GetMapping("/products")
     public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+        return productService.getAll();
     }
 
     @GetMapping("/products/{id}")
     public Product getProduct(@PathVariable Long id) {
-        return productService.getProduct(id);
+        return productService.get(id);
     }
 
     @PutMapping("/products/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        productService.updateProduct(id, product);
+        productService.update(id, product);
     }
 
     @DeleteMapping("/products/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        productService.delete(id);
     }
 }
