@@ -2,11 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductEntity;
-import com.example.demo.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductService extends GenericService<ProductRepository, ProductEntity, Product> {
+public class ProductService extends GenericService<ProductEntity, Product> {
     public ProductService() {
         super(ProductEntity.class, Product.class);
     }

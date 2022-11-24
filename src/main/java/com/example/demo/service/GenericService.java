@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class GenericService<R extends JpaRepository<E, Long>, E, M> implements ServiceInterface<M> {
+public abstract class GenericService<E, M> implements ServiceInterface<M> {
     @Autowired
-    protected R repository;
+    protected JpaRepository<E, Long> repository;
     @Autowired
     protected ModelMapper modelMapper;
     protected final EntityNotFoundExceptionSupplier exceptionSupplier;
