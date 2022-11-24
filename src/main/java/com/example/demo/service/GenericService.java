@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class GenericService<E, M> implements ServiceInterface<M> {
+public abstract class GenericService<R extends JpaRepository<E, Long>, E, M> implements ServiceInterface<M> {
     @Autowired
-    protected JpaRepository<E, Long> repository;
+    protected R repository;
     @Autowired
     protected ModelMapper modelMapper;
     protected final EntityNotFoundExceptionSupplier exceptionSupplier;
@@ -24,19 +24,16 @@ public abstract class GenericService<E, M> implements ServiceInterface<M> {
         this.exceptionSupplier = new EntityNotFoundExceptionSupplier(modelClass.getSimpleName());
     }
 
-    @Override
     public void save(M model) {
         E entity = modelMapper.map(model, entityClass);
         repository.save(entity);
     }
 
-    @Override
     public M get(Long id) {
         E entity = repository.findById(id).orElseThrow(exceptionSupplier.setId(id));
         return modelMapper.map(entity, modelClass);
     }
 
-    @Override
     public List<M> getAll() {
         List<E> entities = repository.findAll();
         return entities
@@ -45,7 +42,6 @@ public abstract class GenericService<E, M> implements ServiceInterface<M> {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public void delete(Long id) {
         try {
             repository.deleteById(id);
@@ -53,4 +49,6 @@ public abstract class GenericService<E, M> implements ServiceInterface<M> {
             throw exceptionSupplier.setId(id).get();
         }
     }
+
+    abstract public void update(Long id, M model);
 }

@@ -7,35 +7,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public class GenericController<T> {
+abstract public class GenericController<S extends ServiceInterface<M>, M> {
     @Autowired
-    protected ServiceInterface<T> service;
+    protected S service;
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct(@RequestBody T model) {
+    public void create(@RequestBody M model) {
         service.save(model);
     }
 
     @GetMapping("")
-    public List<T> getAllProducts() {
+    public List<M> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public T getProduct(@PathVariable Long id) {
+    public M get(@PathVariable Long id) {
         return service.get(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProduct(@PathVariable Long id, @RequestBody T model) {
+    public void update(@PathVariable Long id, @RequestBody M model) {
         service.update(id, model);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
     }
 }
