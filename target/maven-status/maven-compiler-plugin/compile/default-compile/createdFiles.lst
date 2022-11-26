@@ -1,7 +1,0 @@
-com/example/demo/controller/HelloWorldController.class
-com/example/demo/service/ProductService.class
-com/example/demo/DemoApplication.class
-com/example/demo/repository/ProductRepository.class
-com/example/demo/model/Product$ProductBuilder.class
-com/example/demo/model/ProductEntity.class
-com/example/demo/model/Product.class

@@ -1,11 +1,38 @@
 package com.example.demo.model;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
+import java.util.List;
+
 @Data
+@NoArgsConstructor
+// Do not deserialize the ID in requests
+@JsonIgnoreProperties(value = {"id"}, allowGetters = true)
 public class Product {
-    private String firstName;
-    private String lastName;
+
+    private Long id;
+
+    @NotNull
+    private String title;
+
+    private String description;
+
+    @NotNull
+    private Float price;
+
+    private Float prp;
+
+    private Float promotionPrice;
+
+    @NotNull
+    private Integer quantity;
+
+    private String sku;
+
+    private Brand brand;
+
+    private List<Image> images;
 }
