@@ -18,7 +18,7 @@ public class Product {
     @NotNull
     private String title;
 
-    private String description;
+    private String description = "";
 
     @NotNull
     private Float price;

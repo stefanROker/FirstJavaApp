@@ -22,8 +22,9 @@ public class BrandEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @Lob
+    @Column(name = "description", nullable = false)
+    private String description = "";
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "brand")
     private List<ProductEntity> products = new ArrayList<>();
