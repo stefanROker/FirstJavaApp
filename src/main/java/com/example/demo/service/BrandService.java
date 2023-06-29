@@ -17,6 +17,7 @@ public class BrandService extends GenericService<BrandRepository, BrandEntity, B
 
         brandEntity.setName(brand.getName());
         brandEntity.setDescription(brand.getDescription());
+        brandEntity.setLogo((brand.getLogo()));
 
         repository.save(brandEntity);
     }
